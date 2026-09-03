@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Allow: /api/health
+Allow: /manifest.json
+
+# Googlebot & Bingbot fast crawl
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+Sitemap: https://ais-pre-7ru7gz6q462kwf3cvtpnfd-217372630663.asia-southeast1.run.app/sitemap.xml

@@ -1,138 +1,252 @@
-/**
- * Shared types for Telegram AI Bot Pro
- */
+export interface BotVoiceOption {
+  id: string;
+  name: string;
+  gender: 'male' | 'female';
+  accent: 'American' | 'British' | 'Australian';
+  description: string;
+  previewUrl?: string;
+}
 
 export interface BotConfig {
   token: string;
   isActive: boolean;
   personaId: string;
   customPrompt: string;
-  model: 'gemini-3.6-flash' | 'gemini-3.1-pro-preview';
-  temperature: number;
-  autoReply: boolean;
-  welcomeMessage: string;
-  enableVoiceExplanation: boolean;
-  enableImageVision: boolean;
-  enableMarkdown: boolean;
-  customCommands: CustomCommand[];
-  maxHistoryMessages: number;
+  webhookUrl: string;
+  allowedUsers: string[];
+  voiceEnabled: boolean;
+  autoReplyEnabled: boolean;
+  responseDelayMs: number;
+  selectedVoiceId?: string;
+  voiceName?: string;
+  speechSpeed?: number;
+  voiceAccent?: string;
+  voiceProvider?: string;
 }
 
-export interface CustomCommand {
-  id: string;
-  command: string; // e.g. "/yordam"
-  replyText: string; // Static or dynamic response
-  description: string;
-}
-
-export interface TelegramBotInfo {
-  id: number;
-  first_name: string;
-  username: string;
-  can_join_groups?: boolean;
-  can_read_all_group_messages?: boolean;
-  supports_inline_queries?: boolean;
-}
-
-export interface LogEntry {
+export interface AppLog {
   id: string;
   timestamp: string;
-  type:
-    | 'incoming_telegram'
-    | 'outgoing_telegram'
-    | 'ai_reply'
-    | 'system_info'
-    | 'system_error'
-    | 'test_message';
-  chatId?: number | string;
-  chatName?: string;
-  username?: string;
-  text: string;
-  metadata?: {
-    model?: string;
-    processingTimeMs?: number;
-    tokens?: number;
-    error?: string;
-    photoUrl?: string;
-    [key: string]: any;
-  };
+  type: 'incoming_msg' | 'outgoing_msg' | 'system_info' | 'error' | 'ai_call' | 'voice_proc' | 'marketing' | 'payment' | 'gamification';
+  content: string;
+  meta?: any;
+}
+
+export interface AIAgentProfile {
+  id: string;
+  name: string;
+  role: string;
+  icon: string;
+  description: string;
+  systemPrompt: string;
+  capabilities: string[];
+}
+
+export interface AIModelEngine {
+  id: string;
+  name: string;
+  provider: 'google' | 'openai' | 'anthropic' | 'openrouter' | 'auto';
+  badge: string;
+  description: string;
+  bestFor: string;
 }
 
 export interface BotStats {
-  totalMessagesReceived: number;
-  totalMessagesSent: number;
-  activeUsersCount: number;
-  lastActive: string | null;
-  uptimeSeconds: number;
-  startTime: number;
+  totalMessages: number;
+  totalUsers: number;
+  totalAiGenerations: number;
+  totalRevenueUz: number;
+  totalVoiceCalls: number;
+  totalAdClicks: number;
 }
 
-export interface PersonaPreset {
+export interface PaymentPackage {
   id: string;
   title: string;
-  subtitle: string;
-  iconName: string;
+  priceUzs: number;
+  stars: number;
+  durationDays: number;
+  features: string[];
+  badge?: string;
+}
+
+export interface IntegrationServiceConfig {
+  id: string;
+  name: string;
+  category: 'payment' | 'voice' | 'crm' | 'analytics' | 'catalog' | 'marketing';
+  icon: string;
+  status: 'connected' | 'ready' | 'pending';
   description: string;
-  systemPrompt: string;
-  welcomeMessage: string;
-  temperature: number;
+}
+
+export interface LeadStudent {
+  id: string;
+  name: string;
+  telegramId: string | number;
+  level: string;
+  score: string;
+  status: 'new' | 'contacted' | 'paid';
+  date: string;
+  source?: string;
+}
+
+export interface MarketingDirectoryItem {
+  id: string;
+  name: string;
+  category: string;
+  icon: string;
+  url: string;
+  status: 'published' | 'ready_to_submit' | 'submitted';
+  reach: string;
+  description: string;
+}
+
+export interface AdCampaignMetric {
+  id: string;
+  channel: string;
+  utmSource: string;
+  impressions: number;
+  clicks: number;
+  conversions: number;
+  spendUzs: number;
+  cpa: number;
+}
+
+export interface GamificationProfile {
+  userId: string;
+  name: string;
+  streak: number;
+  xp: number;
+  coins: number;
+  rank: number;
+  level: string;
   badge: string;
+  completedQuests: string[];
 }
 
-export interface TelegramMessage {
-  message_id: number;
-  from?: {
-    id: number;
-    is_bot: boolean;
-    first_name: string;
-    last_name?: string;
-    username?: string;
-    language_code?: string;
-  };
-  chat: {
-    id: number;
-    first_name?: string;
-    last_name?: string;
-    username?: string;
-    type: string;
-  };
-  date: number;
-  text?: string;
-  caption?: string;
-  photo?: Array<{
-    file_id: string;
-    file_unique_id: string;
-    width: number;
-    height: number;
-    file_size?: number;
-  }>;
-}
-
-export interface TelegramUpdate {
-  update_id: number;
-  message?: TelegramMessage;
-  edited_message?: TelegramMessage;
-}
-
-export type LessonLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1-C2';
-
-export interface PracticeQuestion {
+export interface DailyQuest {
   id: string;
-  question: string;
-  options: string[];
-  correctIndex: number;
-  explanation: string;
-}
-
-export interface LessonItem {
-  id: string;
-  level: LessonLevel;
-  lessonNumber: number;
-  command: string; // e.g. "/a1_1"
   title: string;
-  subtitle: string;
-  content: string;
-  grammarRules: string[];
-  vocabulary: Array<{ uz: string; en: string; example: string }>;
-  practiceQuestions: PracticeQuestion[];
+  icon: string;
+  rewardXp: number;
+  rewardCoins: number;
+  progress: number;
+  target: number;
+  completed: boolean;
 }
+
+export interface LeaderboardEntry {
+  rank: number;
+  name: string;
+  username: string;
+  city: string;
+  xp: number;
+  streak: number;
+  coins: number;
+  badge: string;
+  level: string;
+}
+
+export interface BroadcastCampaign {
+  id: string;
+  title: string;
+  targetAudience: 'all' | 'ielts' | 'beginners' | 'vip' | 'inactive';
+  messageText: string;
+  sentCount: number;
+  status: 'sent' | 'scheduled' | 'draft';
+  sentDate: string;
+  scheduledTime?: string;
+  hasButton?: boolean;
+  buttonText?: string;
+  buttonUrl?: string;
+}
+
+export interface Uptime247Status {
+  isAlive: boolean;
+  uptimeSeconds: number;
+  uptimeFormatted: string;
+  botMode: 'webhook' | 'polling' | 'hybrid';
+  webhookInfo?: {
+    url: string;
+    has_custom_certificate: boolean;
+    pending_update_count: number;
+    last_error_date?: number;
+    last_error_message?: string;
+    max_connections?: number;
+    ip_address?: string;
+  };
+  pollingActive: boolean;
+  watchdogActive: boolean;
+  lastHeartbeat: string;
+  latencyMs: number;
+  memoryUsageMb: number;
+  autoHealsCount: number;
+  totalUpdatesProcessed: number;
+  errorsCaught: number;
+}
+
+export interface ViralScriptItem {
+  id: string;
+  topic: string;
+  hook: string;
+  script: string;
+  callToAction: string;
+  platform: 'tiktok' | 'reels' | 'shorts' | 'telegram';
+  estimatedReach: string;
+}
+
+export interface GroupStudySettings {
+  enabled: boolean;
+  autoQuizIntervalHours: number;
+  welcomeNewMembers: boolean;
+  allowDuels: boolean;
+  leaderboardInGroup: boolean;
+}
+
+export interface SaaSPackageTier {
+  id: string;
+  name: string;
+  badge: string;
+  targetAudience: string;
+  setupFeeUz: number;
+  monthlyFeeUz: number;
+  maxStudents: number;
+  features: string[];
+  whiteLabelDomain: boolean;
+  customBotName: boolean;
+  dedicatedAdminPanel: boolean;
+  crmIntegration: boolean;
+}
+
+export interface KidsStoryTopic {
+  id: string;
+  title: string;
+  titleUz: string;
+  category: 'animals' | 'colors' | 'numbers' | 'family' | 'fairy_tales';
+  emoji: string;
+  englishStory: string;
+  uzbekStory: string;
+  vocabulary: { word: string; translation: string; icon: string }[];
+  quizQuestion: {
+    question: string;
+    options: string[];
+    correctIndex: number;
+    explanation: string;
+  };
+}
+
+export interface CefrMockExam {
+  id: string;
+  level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1';
+  title: string;
+  timeMinutes: number;
+  totalQuestions: number;
+  sections: {
+    listening: { audioPrompt: string; question: string; options: string[]; answer: number }[];
+    reading: { passage: string; question: string; options: string[]; answer: number }[];
+    grammar: { question: string; options: string[]; answer: number }[];
+    speaking: { prompt: string; sampleBandScore: string; modelAnswer: string }[];
+  };
+}
+
+

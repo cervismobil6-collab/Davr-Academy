@@ -1,6 +1,10 @@
 {
-  "name": "Telegram AI Bot Pro",
-  "description": "Telegram AI bot boshqaruv paneli va server webhook/polling tizimi. Gemini AI yordamida avtomatlashgan suhbat botini oson sozlash va ishlatish.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "name": "Davr Academy — Ingliz Tili & IELTS AI Platformasi",
+  "description": "Davr Academy va English Pro Max — Sun'iy intellekt orqali IELTS Speaking, Insho tekshirish, kino orqali o'rganish va 24/7 jonli ovozli suhbat Telegram Mini App va Web platformasi.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

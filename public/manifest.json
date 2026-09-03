@@ -1,0 +1,9 @@
+{
+  "name": "English Pro Max - Multi-AI Platform",
+  "short_name": "EnglishAI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#4f46e5",
+  "description": "Multi-Model AI English Learning Platform: Gemini 2.5, GPT-4o, Claude 3.5 & IELTS Examiners"
+}
